@@ -1,0 +1,37 @@
+package com.mehmaancoders.planme.presentation.navigation
+
+import kotlinx.serialization.Serializable
+
+sealed class Routes {
+
+    @Serializable
+    data object SplashScreen : Routes()
+
+    @Serializable
+    data object WelcomeScreen : Routes()
+
+    @Serializable
+    data object WelcomeScreen2 : Routes()
+
+    @Serializable
+    data object WelcomeScreen3 : Routes()
+
+    @Serializable
+    data object WelcomeScreen4 : Routes()
+
+    @Serializable
+    data object WelcomeScreen5 : Routes()
+
+    @Serializable
+    data object WelcomeScreen6 : Routes()
+
+    @Serializable
+    data object SignInScreen : Routes()
+
+    @Serializable
+    data object SignUpScreen : Routes()
+
+    @Serializable
+    data object ConnectDevicesScreen : Routes()
+
+}
