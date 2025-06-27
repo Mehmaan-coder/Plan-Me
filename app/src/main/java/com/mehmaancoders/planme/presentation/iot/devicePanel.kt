@@ -198,7 +198,7 @@ fun DeviceSummaryBox(iconBg: Color, icon: Int, title: String, subtitle: String) 
             Icon(painterResource(id = icon), modifier = Modifier.size(36.dp), contentDescription = null, tint = Color(0xFF3B2B20))
         }
 
-        Spacer(modifier = Modifier.height(36.dp).width(128.dp))
+        Spacer(modifier = Modifier.width(128.dp))
 
         Text(title, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(0xFF3B2B20))
         Text(subtitle, color = Color.Gray, fontSize = 12.sp)
