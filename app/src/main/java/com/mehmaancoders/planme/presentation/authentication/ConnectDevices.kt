@@ -1,5 +1,8 @@
 package com.mehmaancoders.planme.presentation.authentication
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,18 +26,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
+import com.google.api.services.calendar.CalendarScopes
 import com.mehmaancoders.planme.R
 import com.mehmaancoders.planme.presentation.navigation.Routes
 
 @Composable
 fun ConnectDevicesScreen(navHostController: NavHostController) {
-    val devices = listOf(
-        "Google Calendar", "Homey", "Amazon Alexa", "Google Assistant",
-        "SmartThings", "Apple HomeKit", "Philips Hue", "IFTTT",
-        "Slack", "Microsoft Teams", "Zoom", "Trello",
-        "Notion", "Todoist", "Spotify", "Nest Thermostat", "Ring Doorbell"
-    )
-
+    val context = LocalContext.current
+    val devices = listOf("Google Calendar")
     var selectedDevices by remember { mutableStateOf(setOf<String>()) }
     var showPopup by remember { mutableStateOf(false) }
 
@@ -102,8 +106,10 @@ fun ConnectDevicesScreen(navHostController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        if (selectedDevices.isNotEmpty()) {
-                            showPopup = true
+                        if (selectedDevices.contains("Google Calendar")) {
+                            linkGoogleCalendar(context) {
+                                showPopup = true
+                            }
                         }
                     },
                     modifier = Modifier
@@ -132,23 +138,7 @@ fun DeviceCard(name: String, isSelected: Boolean, onClick: () -> Unit) {
     val backgroundColor = Color.White
 
     val iconMap = mapOf(
-        "Google Calendar" to R.drawable.google_calendar,
-        "Homey" to R.drawable.homey,
-        "Amazon Alexa" to R.drawable.alexa,
-        "Google Assistant" to R.drawable.assistant,
-        "SmartThings" to R.drawable.smartthings,
-        "Apple HomeKit" to R.drawable.homekit,
-        "Philips Hue" to R.drawable.hue,
-        "IFTTT" to R.drawable.ifttt,
-        "Slack" to R.drawable.slack,
-        "Microsoft Teams" to R.drawable.teams,
-        "Zoom" to R.drawable.zoom,
-        "Trello" to R.drawable.trello,
-        "Notion" to R.drawable.notion,
-        "Todoist" to R.drawable.todoist,
-        "Spotify" to R.drawable.spotify,
-        "Nest Thermostat" to R.drawable.nest,
-        "Ring Doorbell" to R.drawable.ring
+        "Google Calendar" to R.drawable.google_calendar
     )
 
     Row(
@@ -238,5 +228,21 @@ fun ConnectedPopup(onDismiss: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+/**
+ * Launches Google Sign-In with Calendar Scope
+ */
+fun linkGoogleCalendar(context: Context, onSuccess: () -> Unit) {
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .requestScopes(Scope(CalendarScopes.CALENDAR))
+        .build()
+
+    val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(context, gso)
+    val signInIntent: Intent = googleSignInClient.signInIntent
+    if (context is Activity) {
+        context.startActivityForResult(signInIntent, 1001) // Handle result in your activity
     }
 }
