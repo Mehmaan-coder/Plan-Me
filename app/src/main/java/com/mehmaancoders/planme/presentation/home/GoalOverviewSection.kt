@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.mehmaancoders.planme.R
 
 @Composable
-@Preview(showSystemUi = true)
-fun GoalOverviewSection() {
+fun GoalOverviewSection(navHostController: NavHostController) {
     Text("Goal Overview", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
     Spacer(Modifier.height(8.dp))
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

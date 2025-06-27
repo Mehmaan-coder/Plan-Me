@@ -50,7 +50,7 @@ fun ConnectDevicesScreen(navHostController: NavHostController) {
         Box(
             modifier = Modifier
                 .size(60.dp)
-                .padding(horizontal = 5.dp, vertical = 5.dp)
+                .padding(5.dp)
                 .border(width = 2.dp, color = colorResource(id = R.color.brown), shape = CircleShape)
         ) {
             IconButton(onClick = { navHostController.navigate(Routes.SignInScreen) }) {
@@ -125,9 +125,10 @@ fun ConnectDevicesScreen(navHostController: NavHostController) {
         }
 
         if (showPopup) {
-            ConnectedPopup {
-                showPopup = false
-            }
+            ConnectedPopup(
+                onDismiss = { showPopup = false },
+                onClick = { navHostController.navigate(Routes.HomeScreen) }
+            )
         }
     }
 }
@@ -177,7 +178,7 @@ fun DeviceCard(name: String, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun ConnectedPopup(onDismiss: () -> Unit) {
+fun ConnectedPopup(onDismiss: () -> Unit, onClick: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Box(
             Modifier
@@ -220,7 +221,10 @@ fun ConnectedPopup(onDismiss: () -> Unit) {
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Button(
-                    onClick = onDismiss,
+                    onClick = {
+                        onDismiss()
+                        onClick()
+                    },
                     shape = RoundedCornerShape(30.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4C2B1C))
                 ) {
@@ -242,7 +246,9 @@ fun linkGoogleCalendar(context: Context, onSuccess: () -> Unit) {
 
     val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(context, gso)
     val signInIntent: Intent = googleSignInClient.signInIntent
+
     if (context is Activity) {
-        context.startActivityForResult(signInIntent, 1001) // Handle result in your activity
+        context.startActivityForResult(signInIntent, 1001) // handle in MainActivity
+        onSuccess()
     }
 }

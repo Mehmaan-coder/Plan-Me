@@ -22,11 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.mehmaancoders.planme.R
 
 @Composable
 fun TopBarSection(
+    navHostController: NavHostController,
     username: String,
     profileImageUrl: String?
 ) {
@@ -115,11 +117,3 @@ fun BadgeBox(text: String, color: Color) {
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun TopBarSectionPreview() {
-    TopBarSection(
-        username = "Manav",
-        profileImageUrl = "https://example.com/profile.jpg"
-    )
-}

@@ -25,11 +25,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.mehmaancoders.planme.R
 
 @Composable
-@Preview(showSystemUi = true)
-fun TalkToAISection() {
+fun TalkToAISection(navHostController: NavHostController) {
     Text("Talk to the AI", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
     Spacer(Modifier.height(8.dp))
 

@@ -34,4 +34,7 @@ sealed class Routes {
     @Serializable
     data object ConnectDevicesScreen : Routes()
 
+    // ✅ HomeScreen now accepts arguments
+    @Serializable
+    data object HomeScreen : Routes()
 }

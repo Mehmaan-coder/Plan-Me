@@ -1,49 +1,50 @@
 package com.mehmaancoders.planme.presentation.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
+import com.mehmaancoders.planme.presentation.navigation.Routes
+import com.mehmaancoders.planme.utils.BottomNavigationBar
 
 @Composable
-fun HomeScreen(
-    username: String,
-    profileImageUrl: String
-) {
+fun HomeScreen(navHostController: NavHostController) {
+    val user = FirebaseAuth.getInstance().currentUser
+    val username = user?.displayName ?: "User"
+    val profileImageUrl = user?.photoUrl?.toString() ?: ""
+
+
+    Scaffold(
+        containerColor = Color(0xFFF9F6F4),
+        bottomBar = {
+            BottomNavigationBar(navHostController = navHostController)
+        }
+    ) { innerPadding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(innerPadding)
             .background(Color(0xFFF9F6F4))
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
-        TopBarSection(username = username, profileImageUrl = profileImageUrl)
+        TopBarSection(username = username, profileImageUrl = profileImageUrl, navHostController = navHostController)
         Spacer(Modifier.height(12.dp))
-        GoalOverviewSection()
+        GoalOverviewSection(navHostController)
         Spacer(Modifier.height(16.dp))
-        ServicesSection()
+        ServicesSection(navHostController)
         Spacer(Modifier.height(16.dp))
-        TalkToAISection()
+        TalkToAISection(navHostController)
         Spacer(Modifier.height(16.dp))
-        MindfulArticlesSection()
+        MindfulArticlesSection(navHostController)
         Spacer(Modifier.height(60.dp)) // For bottom nav
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        username = "Manav",
-        profileImageUrl = "https://example.com/profile.jpg"
-    )
-}
+    }
