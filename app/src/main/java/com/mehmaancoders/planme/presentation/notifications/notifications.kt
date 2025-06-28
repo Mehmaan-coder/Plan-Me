@@ -16,14 +16,11 @@ import com.mehmaancoders.planme.R
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import com.mehmaancoders.planme.presentation.navigation.Routes
 
+@Preview(showSystemUi = true)
 @Composable
-fun NotificationsScreen(navHostController: NavHostController) {
+fun NotificationsScreen() {
     val scrollState = rememberScrollState()
 
     Column(
@@ -41,7 +38,7 @@ fun NotificationsScreen(navHostController: NavHostController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = painterResource(id = R.drawable.planme_back), contentDescription = null, tint = Color(0xFF3B2B20), modifier = Modifier.clickable{navHostController.navigate(Routes.HomeScreen)}.size(20.dp))
+            Icon(Icons.Default.Notifications, contentDescription = null, tint = Color(0xFF3B2B20))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Notifications", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color(0xFF3B2B20))
                 Spacer(modifier = Modifier.width(8.dp))
@@ -54,13 +51,12 @@ fun NotificationsScreen(navHostController: NavHostController) {
                 }
             }
             Image(
-                painter = painterResource(id = R.drawable.profileicon), // replace with actual profile image
+                painter = painterResource(id = R.drawable.ic_profile), // replace with actual profile image
                 contentDescription = null,
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(1.dp, Color.White, CircleShape)
-                    .clickable{navHostController.navigate(Routes.SettingsScreen)}
             )
         }
 
