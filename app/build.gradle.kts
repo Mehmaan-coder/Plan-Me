@@ -2,9 +2,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+<<<<<<< HEAD
     kotlin("kapt")
     id("com.google.gms.google-services")
     kotlin("plugin.serialization") version libs.versions.kotlin.get()
+=======
+    kotlin("plugin.serialization") version "2.1.21"
+    id("com.google.gms.google-services")
+>>>>>>> f89e21b (Completed FMC setup and notification Implementation)
 }
 
 android {
@@ -120,7 +125,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+<<<<<<< HEAD
 
     // Optional if desugaring is enabled
     // coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
+=======
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+
+        implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+        implementation("com.google.firebase:firebase-messaging-ktx")
+}
+>>>>>>> f89e21b (Completed FMC setup and notification Implementation)
