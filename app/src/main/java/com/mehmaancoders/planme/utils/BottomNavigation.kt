@@ -60,7 +60,7 @@ fun BottomNavigationBar(
                 BottomNavItem(
                     iconRes = R.drawable.chats,
                     selected = selectedItem == 1,
-                    onClick = { onItemSelected(1) }
+                    onClick = { navHostController.navigate(Routes.ChatBotInfoScreen) }
                 )
                 Spacer(modifier = Modifier.width(fabSize)) // FAB space
                 BottomNavItem(

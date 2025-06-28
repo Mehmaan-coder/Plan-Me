@@ -11,6 +11,7 @@ import com.mehmaancoders.planme.presentation.authentication.ConnectDevicesScreen
 import com.mehmaancoders.planme.presentation.authentication.SignInScreen
 import com.mehmaancoders.planme.presentation.authentication.SignUpScreen
 import com.mehmaancoders.planme.presentation.authentication.rememberAuthState
+import com.mehmaancoders.planme.presentation.chat.ChatBotInfoScreen
 import com.mehmaancoders.planme.presentation.fetching.FetchingScreen
 import com.mehmaancoders.planme.presentation.goalselection.BudgetSelectorScreen
 import com.mehmaancoders.planme.presentation.goalselection.ExperienceLevelRatingScreen
@@ -145,6 +146,10 @@ fun PlanMeNavigationSystem() {
 
         composable<Routes.SettingsScreen>{
             SettingsScreen(navController)
+        }
+
+        composable<Routes.ChatBotInfoScreen>{
+            ChatBotInfoScreen(navController)
         }
     }
 }

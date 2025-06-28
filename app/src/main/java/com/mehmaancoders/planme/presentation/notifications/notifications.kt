@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.mehmaancoders.planme.presentation.navigation.Routes
@@ -40,7 +41,7 @@ fun NotificationsScreen(navHostController: NavHostController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.Notifications, contentDescription = null, tint = Color(0xFF3B2B20))
+            Icon(painter = painterResource(id = R.drawable.planme_back), contentDescription = null, tint = Color(0xFF3B2B20), )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Notifications", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color(0xFF3B2B20))
                 Spacer(modifier = Modifier.width(8.dp))
