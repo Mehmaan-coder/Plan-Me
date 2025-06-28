@@ -2,10 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version libs.versions.kotlin.get()
-    alias(libs.plugins.google.gms.google.services)
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 android {
@@ -19,6 +18,9 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -44,27 +46,32 @@ android {
         compose = true
     }
 
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.5.13"
-//    }
-
-    packaging {
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.13"
+    }
+    packagingOptions {
         resources {
-            excludes += "META-INF/INDEX.LIST"
-            excludes += "META-INF/DEPENDENCIES"
+            excludes += "/META-INF/{AL2.0,LGPL2.1}" // Common general exclusions
+            excludes += "META-INF/DEPENDENCIES"    // Specifically exclude the problematic file
             excludes += "META-INF/LICENSE"
             excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/license.txt"
             excludes += "META-INF/NOTICE"
             excludes += "META-INF/NOTICE.txt"
+            excludes += "META-INF/notice.txt"
+            excludes += "META-INF/ASL2.0"
+            excludes += "META-INF/*.kotlin_module" // Exclude Kotlin module files if they cause issues
         }
     }
 }
 
 dependencies {
-    // Jetpack Compose
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -74,39 +81,38 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
 
-    // Firebase Auth + Firestore + Google Sign-In
-    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-    implementation("com.google.firebase:firebase-auth-ktx")
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(libs.firebase.auth.ktx) // Optional if using alias
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
-    // Hilt for Dependency Injection
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    // Google Calendar API
+    implementation("com.google.api-client:google-api-client-android:1.33.2")
+    implementation("com.google.api-client:google-api-client-gson:1.33.2")
+    implementation("com.google.oauth-client:google-oauth-client-jetty:1.33.2")
+    implementation("com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0")
+    implementation("com.google.http-client:google-http-client-gson:1.44.2")
+
+    // Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    // Coroutines (for async operations)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
-    // ViewModel Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-
-    // Google Calendar API
-    implementation("com.google.api-client:google-api-client-android:1.34.0")
-    implementation("com.google.oauth-client:google-oauth-client:1.39.0")  // Fixes AndroidHttp import
-    implementation("com.google.http-client:google-http-client-android:1.40.0") // supports AndroidHttp
-    implementation("com.google.apis:google-api-services-calendar:v3-rev20250404-2.0.0")
-
-    // Optional Credentials & Serialization
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
+    // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    // Coil image loading
-    implementation("io.coil-kt:coil-compose:2.6.0")
-    implementation(libs.play.services.fitness)
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
-    // Testing dependencies
+    // Coil for image loading
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -114,6 +120,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
 
-apply(plugin = "com.google.gms.google-services")
+    // Optional if desugaring is enabled
+    // coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+}

@@ -459,7 +459,7 @@ fun TimeSelectorScreen(
             IconButton(
                 onClick = {
                     // Navigate back to GoalSelectionScreen
-                    navController.popBackStack()
+                    navController.navigate(Routes.GoalSelectionScreen)
                 },
                 modifier = Modifier
                     .size(40.dp)

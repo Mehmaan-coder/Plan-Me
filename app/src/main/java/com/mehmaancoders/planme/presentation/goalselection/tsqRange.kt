@@ -80,19 +80,15 @@ fun ExperienceLevelRatingScreen(navHostController: NavHostController) {
                     Box(
                         modifier = Modifier
                             .size(32.dp)
-                            .clip(CircleShape)
-                            .border(
-                                width = 1.dp,
-                                color = iconTintRangeTopBar,
-                                shape = CircleShape
-                            ),
+                            .border(1.5.dp, primaryTextColor, CircleShape)
+                            .clip(CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.planme_back),
                             contentDescription = "Back",
-                            tint = iconTintRangeTopBar,
-                            modifier = Modifier.size(16.dp)
+                            tint = primaryTextColor,
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))

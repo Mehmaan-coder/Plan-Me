@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -92,24 +93,23 @@ fun BudgetSelectorScreen(navHostController: NavHostController) {
 
             // Top Bar
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().clickable{navHostController.navigate(Routes.TimeSelectorScreen)},
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Back Button
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .border(width = 2.dp, color = primaryTextColor, shape = CircleShape)
-                        .clickable { navHostController.navigate(Routes.TimeSelectorScreen) },
+                        .size(32.dp)
+                        .border(1.5.dp, primaryTextColor, CircleShape)
+                        .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.planme_back),
                         contentDescription = "Back",
-                        tint = iconTintColor,
-                        modifier = Modifier.size(24.dp)
+                        tint = primaryTextColor,
+                        modifier = Modifier.size(18.dp)
                     )
                 }
 

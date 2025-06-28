@@ -20,11 +20,13 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavHostController
+import com.mehmaancoders.planme.R
 import com.mehmaancoders.planme.presentation.navigation.Routes
 import kotlin.math.roundToInt
 
@@ -167,11 +169,20 @@ fun MoodSelectorScreen(
                         navHostController?.navigate(Routes.BudgetSelectorScreen) ?: onBack()
                     }
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        tint = iconTintMood
-                    )
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .border(1.5.dp, primaryTextColor, CircleShape)
+                            .clip(CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.planme_back),
+                            contentDescription = "Back",
+                            tint = primaryTextColor,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Mood Assessment",
