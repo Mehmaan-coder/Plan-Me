@@ -66,6 +66,13 @@ dependencies {
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Retrofit + Kotlinx Serialization Converter
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+
+    // ✅ ADD THIS FOR toMediaType() support
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
