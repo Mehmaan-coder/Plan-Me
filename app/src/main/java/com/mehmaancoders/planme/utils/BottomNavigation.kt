@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mehmaancoders.planme.R
+import com.mehmaancoders.planme.presentation.navigation.Routes
 
 @Composable
 fun BottomNavigationBar(
@@ -83,7 +84,7 @@ fun BottomNavigationBar(
             contentAlignment = Alignment.TopCenter
         ) {
             FloatingActionButton(
-                onClick = onFabClick,
+                onClick = {navHostController.navigate(Routes.GoalSelectionScreen)},
                 containerColor = Color(0xFFA5C87A),
                 contentColor = Color.White,
                 modifier = Modifier

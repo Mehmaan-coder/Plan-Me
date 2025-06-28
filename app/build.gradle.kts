@@ -2,8 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version "2.1.21"
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
     alias(libs.plugins.google.gms.google.services)
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -42,9 +44,9 @@ android {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
-    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.5.13"
+//    }
 
     packaging {
         resources {
@@ -78,6 +80,17 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
 
+    // Hilt for Dependency Injection
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Coroutines (for async operations)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // ViewModel Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
     // Google Calendar API
     implementation("com.google.api-client:google-api-client-android:1.34.0")
     implementation("com.google.oauth-client:google-oauth-client:1.39.0")  // Fixes AndroidHttp import
@@ -91,8 +104,9 @@ dependencies {
 
     // Coil image loading
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation(libs.play.services.fitness)
 
-    // Testing dependencies ...
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

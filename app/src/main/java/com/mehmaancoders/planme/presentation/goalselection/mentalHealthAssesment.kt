@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.FlowRow // Already imported
 import androidx.compose.foundation.layout.ExperimentalLayoutApi // Already imported
+import androidx.compose.ui.res.painterResource
+import com.mehmaancoders.planme.R
 
 // 🎨 Colors and Styles
 val knowledgeScreenBg = Color(0xFFFDF7F3) // Line 21
@@ -36,7 +38,6 @@ val knowledgeButtonText = Color.White
 @Composable
 @Preview(showSystemUi = true)
 fun KnowledgeSelectionScreen() {
-    // ... rest of the code
     val allOptions = listOf("Figma", "Java Scipt", "React", "Fast Api", "Node.js")
     val selectedOptions = remember { mutableStateListOf<String>() }
 
@@ -57,7 +58,11 @@ fun KnowledgeSelectionScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Circle, contentDescription = null, tint = knowledgePrimaryText)
+                    Icon(
+                        painter = painterResource(id = R.drawable.planme_back),
+                        contentDescription = null,
+                        tint = knowledgePrimaryText
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Assessment", fontWeight = FontWeight.Bold, color = knowledgePrimaryText)
                 }
@@ -67,7 +72,7 @@ fun KnowledgeSelectionScreen() {
                         .background(knowledgeIndicatorBg, RoundedCornerShape(16.dp))
                         .padding(horizontal = 12.dp, vertical = 4.dp)
                 ) {
-                    Text("4 of 4", fontSize = 12.sp, color = knowledgePrimaryText)
+                    Text("4 of 5", fontSize = 12.sp, color = knowledgePrimaryText)
                 }
             }
 

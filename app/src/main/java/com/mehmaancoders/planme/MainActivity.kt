@@ -17,7 +17,9 @@ import com.google.api.services.calendar.CalendarScopes
 import com.google.firebase.FirebaseApp
 import com.mehmaancoders.planme.presentation.navigation.PlanMeNavigationSystem
 import com.mehmaancoders.planme.ui.theme.PlanMeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     companion object {

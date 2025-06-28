@@ -51,7 +51,7 @@ fun NotificationsScreen() {
                 }
             }
             Image(
-                painter = painterResource(id = R.drawable.ic_profile), // replace with actual profile image
+                painter = painterResource(id = R.drawable.profileicon), // replace with actual profile image
                 contentDescription = null,
                 modifier = Modifier
                     .size(36.dp)

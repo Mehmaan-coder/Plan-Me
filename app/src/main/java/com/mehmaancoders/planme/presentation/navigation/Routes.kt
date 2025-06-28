@@ -37,4 +37,22 @@ sealed class Routes {
     // ✅ HomeScreen now accepts arguments
     @Serializable
     data object HomeScreen : Routes()
+
+    @Serializable
+    data object GoalSelectionScreen : Routes()
+
+    @Serializable
+    data object BudgetSelectorScreen : Routes()
+
+    @Serializable
+    data object MoodSelectorScreen : Routes()
+
+    @Serializable
+    data object FetchingScreen : Routes()
+
+    @Serializable
+    data object TimeSelectorScreen : Routes()
+
+    @Serializable
+    data object ExperienceLevelRatingScreen : Routes()
 }

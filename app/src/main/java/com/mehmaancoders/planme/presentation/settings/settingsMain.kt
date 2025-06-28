@@ -53,7 +53,7 @@ val sampleUserProfile = UserProfile(
     name = "Lakao Developer",
     email = "lakao.dev@example.com",
     location = "Jaipur, India",
-    avatarRes = R.drawable.placeholder_avatar // Replace with your actual placeholder drawable
+    avatarRes = R.drawable.profileicon // Replace with your actual placeholder drawable
 )
 
 // --- Composable Screen ---
