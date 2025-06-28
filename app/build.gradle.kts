@@ -64,4 +64,13 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation("androidx.compose.ui:ui:1.6.0")
+    implementation("androidx.compose.material:material:1.6.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.0")
+
 }

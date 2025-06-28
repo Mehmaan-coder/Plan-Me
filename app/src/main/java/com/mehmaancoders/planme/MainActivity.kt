@@ -14,16 +14,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mehmaancoders.planme.presentation.navigation.PlanMeNavigationSystem
 import com.mehmaancoders.planme.ui.theme.PlanMeTheme
 
+import com.mehmaancoders.planme.ui.screen.PlanScreen
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            PlanMeTheme {
-
-                PlanMeNavigationSystem()
-            }
+            PlanScreen()
         }
     }
 }
-

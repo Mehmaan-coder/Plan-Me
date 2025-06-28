@@ -1,0 +1,4 @@
+{
+  "python.defaultInterpreterPath": "ai-planner-backend/venv/bin/python",
+  "python.analysis.extraPaths": ["ai-planner-backend", "ai-planner-backend/venv/lib/python3.9/site-packages"]
+}
