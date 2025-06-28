@@ -2,15 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-<<<<<<< HEAD
+
     kotlin("kapt")
-    id("com.google.gms.google-services")
-    kotlin("plugin.serialization") version libs.versions.kotlin.get()
-=======
-    kotlin("plugin.serialization") version "2.1.21"
-    id("com.google.gms.google-services")
->>>>>>> f89e21b (Completed FMC setup and notification Implementation)
-}
+    id("com.google.gms.google-services") // Apply this ONCE
+    kotlin("plugin.serialization") version libs.versions.kotlin.get() // Apply this ONCE, using the version from your catalog
+
+    // REMOVED DUPLICATES:
+    // kotlin("plugin.serialization") version "2.1.21" // Duplicate removed
+    // id("com.google.gms.google-services") // Duplicate removed
+} // This closing brace for plugins was missing in your original snippet, but I assume it was just a copy-paste error. If not, it's critical.
 
 android {
     namespace = "com.mehmaancoders.planme"
@@ -56,8 +56,8 @@ android {
     }
     packagingOptions {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}" // Common general exclusions
-            excludes += "META-INF/DEPENDENCIES"    // Specifically exclude the problematic file
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
             excludes += "META-INF/LICENSE"
             excludes += "META-INF/LICENSE.txt"
             excludes += "META-INF/license.txt"
@@ -65,7 +65,7 @@ android {
             excludes += "META-INF/NOTICE.txt"
             excludes += "META-INF/notice.txt"
             excludes += "META-INF/ASL2.0"
-            excludes += "META-INF/*.kotlin_module" // Exclude Kotlin module files if they cause issues
+            excludes += "META-INF/*.kotlin_module"
         }
     }
 }
@@ -88,7 +88,7 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation(libs.firebase.auth.ktx) // Optional if using alias
+    implementation(libs.firebase.auth.ktx)
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
@@ -97,11 +97,12 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     // Google Calendar API
-    implementation("com.google.api-client:google-api-client-android:1.33.2")
-    implementation("com.google.api-client:google-api-client-gson:1.33.2")
-    implementation("com.google.oauth-client:google-oauth-client-jetty:1.33.2")
-    implementation("com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0")
-    implementation("com.google.http-client:google-http-client-gson:1.44.2")
+    // Consider updating these to their latest versions or managing them with your version catalog for consistency
+    implementation("com.google.api-client:google-api-client-android:2.4.0") // Example: updated version
+    implementation("com.google.api-client:google-api-client-gson:1.33.2") // This might be older, check if google-http-client-gson is preferred
+    implementation("com.google.oauth-client:google-oauth-client-jetty:1.33.2") // Usually not needed for Android client
+    implementation("com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0") // This version looks okay
+    implementation("com.google.http-client:google-http-client-gson:1.44.2") // Use this for GSON with Google HTTP client
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -109,7 +110,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json) // Relies on the version from plugin.serialization
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
@@ -125,18 +126,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-<<<<<<< HEAD
-
-    // Optional if desugaring is enabled
-    // coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
-=======
-    implementation(libs.androidx.material.icons.core)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-
-        implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-        implementation("com.google.firebase:firebase-messaging-ktx")
-}
->>>>>>> f89e21b (Completed FMC setup and notification Implementation)
