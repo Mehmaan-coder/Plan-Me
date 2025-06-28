@@ -41,7 +41,7 @@ fun NotificationsScreen(navHostController: NavHostController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = painterResource(id = R.drawable.planme_back), contentDescription = null, tint = Color(0xFF3B2B20), modifier = Modifier.clickable{navHostController.navigate(Routes.HomeScreen)})
+            Icon(painter = painterResource(id = R.drawable.planme_back), contentDescription = null, tint = Color(0xFF3B2B20), modifier = Modifier.clickable{navHostController.navigate(Routes.HomeScreen)}.size(20.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Notifications", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color(0xFF3B2B20))
                 Spacer(modifier = Modifier.width(8.dp))

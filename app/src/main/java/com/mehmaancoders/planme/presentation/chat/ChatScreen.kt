@@ -4,20 +4,22 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mehmaancoders.planme.R
 import com.mehmaancoders.planme.presentation.navigation.Routes
+import androidx.compose.ui.Alignment
+
+data class ChatMessage(val text: String, val isUser: Boolean)
 
 @Composable
 fun ChatBotInfoScreen(navHostController: NavHostController) {
@@ -27,6 +29,15 @@ fun ChatBotInfoScreen(navHostController: NavHostController) {
     val subTextColor = Color(0xFF897471)
     val dotActiveColor = Color(0xFF44322F)
     val dotInactiveColor = Color(0xFFD3C4C0)
+
+    var messageInput by remember { mutableStateOf("") }
+    var chatMessages by remember { mutableStateOf(listOf<ChatMessage>()) }
+    var showBot by remember { mutableStateOf(true) }
+    var searchQuery by remember { mutableStateOf("") }
+
+    val filteredMessages = if (searchQuery.isNotEmpty()) {
+        chatMessages.filter { it.text.contains(searchQuery, ignoreCase = true) }
+    } else chatMessages
 
     Column(
         modifier = Modifier
@@ -47,7 +58,7 @@ fun ChatBotInfoScreen(navHostController: NavHostController) {
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(1.dp, Color.Black, CircleShape)
-                    .clickable { navHostController.navigate(Routes.HomeScreen)},
+                    .clickable { navHostController.navigate(Routes.HomeScreen) },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -72,86 +83,118 @@ fun ChatBotInfoScreen(navHostController: NavHostController) {
                     modifier = Modifier
                         .size(45.dp)
                         .padding(end = 16.dp)
+                        .clickable {
+                            // Toggle simple search (can expand into full screen search)
+                            searchQuery = if (searchQuery.isEmpty()) " " else ""
+                        }
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_settings),
                     contentDescription = "Settings",
                     tint = Color.Black,
-                    modifier = Modifier.size(35.dp).clickable{navHostController.navigate(Routes.SettingsScreen)}
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { navHostController.navigate(Routes.SettingsScreen) }
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(95.dp))
-
-        // Chatbot Illustration
-        Image(
-            painter = painterResource(id = R.drawable.chat_robo),
-            contentDescription = "Chatbot Illustration",
-            modifier = Modifier
-                .size(300.dp)
-                .align(Alignment.CenterHorizontally)
-        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Limitation Tag
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .background(tagColor, shape = RoundedCornerShape(20.dp))
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-        ) {
-            Text(
-                text = "LIMITATIONS",
-                style = MaterialTheme.typography.labelMedium,
-                color = Color.White
+        if (showBot && chatMessages.isEmpty()) {
+            Image(
+                painter = painterResource(id = R.drawable.chat_robo),
+                contentDescription = "Chatbot Illustration",
+                modifier = Modifier
+                    .size(260.dp)
+                    .align(Alignment.CenterHorizontally)
             )
-        }
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        // Title and Subtitle
-        Text(
-            text = "Limited Knowledge",
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-            color = titleColor,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-        Text(
-            text = "No human being is perfect. So is chatbots.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = subTextColor,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Dot Indicator
-        Row(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            repeat(5) { index ->
-                Box(
-                    modifier = Modifier
-                        .size(if (index == 2) 10.dp else 6.dp)
-                        .clip(CircleShape)
-                        .background(if (index == 2) dotActiveColor else dotInactiveColor)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .background(tagColor, shape = RoundedCornerShape(20.dp))
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = "LIMITATIONS",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White
                 )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Limited Knowledge",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                color = titleColor,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = "No human being is perfect. So is chatbots.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = subTextColor,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                repeat(5) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(if (index == 2) 10.dp else 6.dp)
+                            .clip(CircleShape)
+                            .background(if (index == 2) dotActiveColor else dotInactiveColor)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        } else {
+            // Chat messages
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                filteredMessages.forEach { message ->
+                    val alignment = if (message.isUser) Alignment.End else Alignment.Start
+                    val bgColor = if (message.isUser) Color(0xFF9ACF68) else Color(0xFFE7D9D6)
+                    val textColor = if (message.isUser) Color.White else Color.Black
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(bgColor, RoundedCornerShape(16.dp))
+                                .padding(horizontal = 12.dp, vertical = 8.dp)
+                                .widthIn(max = 280.dp)
+                        ) {
+                            Text(message.text, color = textColor)
+                        }
+                    }
+                }
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Bottom Chat Input Box
+        // Chat input
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 50.dp)
+                .padding(vertical = 12.dp)
                 .background(Color.White, shape = RoundedCornerShape(28.dp))
                 .border(1.dp, Color(0xFFE7D9D6), shape = RoundedCornerShape(28.dp))
                 .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -164,11 +207,16 @@ fun ChatBotInfoScreen(navHostController: NavHostController) {
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Type to start chatting...!",
-                    color = subTextColor,
-                    modifier = Modifier.weight(1f)
+
+                BasicTextField(
+                    value = messageInput,
+                    onValueChange = { messageInput = it },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    textStyle = LocalTextStyle.current.copy(color = subTextColor)
                 )
+
                 Icon(
                     painter = painterResource(id = R.drawable.ic_send),
                     contentDescription = "Send",
@@ -176,6 +224,17 @@ fun ChatBotInfoScreen(navHostController: NavHostController) {
                     modifier = Modifier
                         .size(36.dp)
                         .background(Color(0xFF9ACF68), shape = CircleShape)
+                        .clickable {
+                            if (messageInput.isNotBlank()) {
+                                chatMessages = chatMessages + ChatMessage(messageInput, true)
+
+                                // TODO: Add AI response here
+                                chatMessages = chatMessages + ChatMessage("This is a placeholder AI reply.", false)
+
+                                messageInput = ""
+                                showBot = false
+                            }
+                        }
                         .padding(6.dp)
                 )
             }
