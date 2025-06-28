@@ -19,6 +19,8 @@ import com.mehmaancoders.planme.presentation.goalselection.MoodSelectorScreen
 import com.mehmaancoders.planme.presentation.goalselection.TimeSelectorScreen
 import com.mehmaancoders.planme.presentation.goalselection.TimeSelectionMode
 import com.mehmaancoders.planme.presentation.home.HomeScreen
+import com.mehmaancoders.planme.presentation.notifications.NotificationsScreen
+import com.mehmaancoders.planme.presentation.settings.SettingsScreen
 import com.mehmaancoders.planme.presentation.splashscreen.SplashScreen
 import com.mehmaancoders.planme.presentation.welcomescreen.*
 
@@ -135,6 +137,14 @@ fun PlanMeNavigationSystem() {
 
         composable<Routes.ExperienceLevelRatingScreen>{
             ExperienceLevelRatingScreen(navController)
+        }
+
+        composable<Routes.NotificationScreen>{
+            NotificationsScreen(navController)
+        }
+
+        composable<Routes.SettingsScreen>{
+            SettingsScreen(navController)
         }
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.mehmaancoders.planme.R
+import com.mehmaancoders.planme.presentation.navigation.Routes
 
 @Composable
 fun TopBarSection(
@@ -87,7 +88,7 @@ fun TopBarSection(
                 Icon(
                     painter = painterResource(id = R.drawable.notification_icon),
                     contentDescription = "Notifications",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(24.dp).clickable{navHostController.navigate(Routes.NotificationScreen)},
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }

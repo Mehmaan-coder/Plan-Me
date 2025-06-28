@@ -16,11 +16,13 @@ import com.mehmaancoders.planme.R
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import com.mehmaancoders.planme.presentation.navigation.Routes
 
-@Preview(showSystemUi = true)
 @Composable
-fun NotificationsScreen() {
+fun NotificationsScreen(navHostController: NavHostController) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -57,6 +59,7 @@ fun NotificationsScreen() {
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(1.dp, Color.White, CircleShape)
+                    .clickable{navHostController.navigate(Routes.SettingsScreen)}
             )
         }
 

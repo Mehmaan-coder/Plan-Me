@@ -71,7 +71,7 @@ fun BottomNavigationBar(
                 BottomNavItem(
                     iconRes = R.drawable.profileicon,
                     selected = selectedItem == 3,
-                    onClick = { onItemSelected(3) }
+                    onClick = {navHostController.navigate(Routes.SettingsScreen) }
                 )
             }
         }

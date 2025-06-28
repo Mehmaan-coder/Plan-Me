@@ -55,4 +55,11 @@ sealed class Routes {
 
     @Serializable
     data object ExperienceLevelRatingScreen : Routes()
+
+    @Serializable
+    data object NotificationScreen : Routes()
+
+    @Serializable
+    data object SettingsScreen : Routes()
+
 }
