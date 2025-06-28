@@ -1,10 +1,13 @@
 package com.mehmaancoders.planme.presentation.notifications
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
@@ -12,150 +15,149 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mehmaancoders.planme.R
-import androidx.compose.material3.Text
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.ui.tooling.preview.Preview
+import com.mehmaancoders.planme.data.model.NotificationItem
 
-@Preview(showSystemUi = true)
+// 🎨 Colors
+val screenBackground = Color(0xFFFDF7F3)
+val primaryTextColor = Color(0xFF3B2B20)
+val notificationCountBg = Color(0xFFFFCFC0)
+val notificationCountText = Color(0xFFFF6B00)
+val subtitleText = Color.Gray
+val cardBackground = Color.White
+
+val robotColor = Color(0xFFA7C879)
+val clipboardColor = Color(0xFFB9ABF8)
+val smileColor = Color(0xFFA7C879)
+val healthColor = Color(0xFFFF6B00)
+val statsColor = Color(0xFFFFD338)
+val brainColor = Color(0xFF8C4D38)
+val defaultColor = Color(0xFF6E4E33)
+
+val taskProgressBg = Color(0xFFF3F0FB)
+val taskProgressText = Color(0xFF6E60D3)
+
 @Composable
-fun NotificationsScreen() {
-    val scrollState = rememberScrollState()
+fun NotificationsScreen(viewModel: NotificationViewModel = viewModel()) {
+    val notifications by viewModel.notifications.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFDF7F3))
-            .verticalScroll(scrollState)
+            .background(screenBackground)
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Top Bar
+        // 🔔 Header
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.Notifications, contentDescription = null, tint = Color(0xFF3B2B20))
+            Icon(
+                Icons.Default.Notifications,
+                contentDescription = "Notifications",
+                tint = primaryTextColor
+            )
+
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Notifications", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color(0xFF3B2B20))
+                Text(
+                    "Notifications",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    color = primaryTextColor
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Box(
-                    modifier = Modifier
-                        .background(Color(0xFFFFCFC0), RoundedCornerShape(16.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    Text("+11", color = Color(0xFFFF6B00), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                if (notifications.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .background(notificationCountBg, RoundedCornerShape(16.dp))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            "+${notifications.size}",
+                            color = notificationCountText,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_profile), // replace with actual profile image
-                contentDescription = null,
+
+            // Default profile icon used
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = "User Profile",
+                tint = primaryTextColor,
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(1.dp, Color.White, CircleShape)
+                    .padding(6.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        SectionTitle("Earlier This Day")
+        if (notifications.isEmpty()) {
+            SectionTitle("No Notifications Yet")
+        } else {
+            SectionTitle("Recent Notifications")
 
-        NotificationCard(
-            iconColor = Color(0xFFA7C879),
-            icon = R.drawable.ic_robot,
-            title = "Message from Planner AI!",
-            subtitle = "52 Total Unread Messages"
-        )
+            notifications.forEach { notif ->
+                val lowerTitle = notif.title.lowercase()
 
-        NotificationCard(
-            iconColor = Color(0xFFB9ABF8),
-            icon = R.drawable.ic_clipboard,
-            title = "Task Incomplete!",
-            subtitle = "It’s Reflection Time!",
-            endContent = {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFFF3F0FB)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("8/32", fontSize = 10.sp, color = Color(0xFF6E60D3))
+                val iconRes = when {
+                    "planner" in lowerTitle || "ai" in lowerTitle -> R.drawable.ic_robot
+                    "task" in lowerTitle || "incomplete" in lowerTitle -> R.drawable.ic_clipboard
+                    "mood" in lowerTitle || "happy" in lowerTitle -> R.drawable.ic_smile
+                    "stress" in lowerTitle -> R.drawable.ic_health
+                    "mental" in lowerTitle || "analysis" in lowerTitle -> R.drawable.ic_stats
+                    "exercise" in lowerTitle || "breathing" in lowerTitle -> R.drawable.ic_brain
+                    else -> R.drawable.ic_robot // Default
                 }
-            }
-        )
 
-        NotificationCard(
-            iconColor = Color(0xFF8C4D38),
-            icon = R.drawable.ic_brain,
-            title = "Exercise Complete!",
-            subtitle = "22m Breathing Done."
-        )
-
-        NotificationCard(
-            iconColor = Color(0xFFFFD338),
-            icon = R.drawable.ic_stats,
-            title = "Mental Health Data is Here.",
-            subtitle = "Your Monthly Mental Analysis is here.",
-            customContent = {
-                OutlinedButton(
-                    onClick = { /* Download PDF */ },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    border = BorderStroke(1.dp, Color(0xFF3B2B20))
-                ) {
-                    Icon(Icons.Default.FileDownload, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Lakao Data.pdf")
+                val iconColor = when (iconRes) {
+                    R.drawable.ic_robot -> robotColor
+                    R.drawable.ic_clipboard -> clipboardColor
+                    R.drawable.ic_smile -> smileColor
+                    R.drawable.ic_health -> healthColor
+                    R.drawable.ic_stats -> statsColor
+                    R.drawable.ic_brain -> brainColor
+                    else -> defaultColor
                 }
-            }
-        )
 
-        NotificationCard(
-            iconColor = Color(0xFFA7C879),
-            icon = R.drawable.ic_smile,
-            title = "Mood Improved.",
-            subtitle = "Neutral → Happy"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-        SectionTitle("Last Week")
-
-        NotificationCard(
-            iconColor = Color(0xFFFF6B00),
-            icon = R.drawable.ic_health,
-            title = "Stress Decreased.",
-            subtitle = "Stress Level is now 3.",
-            customContent = {
-                // Stress progress bar
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    repeat(6) { index ->
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(6.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(
-                                    if (index < 3) Color(0xFFFF6B00)
-                                    else Color(0xFFE5E1DE)
+                val endContent: @Composable (() -> Unit)? =
+                    if ("task" in lowerTitle || "incomplete" in lowerTitle) {
+                        {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(taskProgressBg),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    "8/32", // Placeholder
+                                    fontSize = 10.sp,
+                                    color = taskProgressText
                                 )
-                        )
-                        if (index != 5) Spacer(modifier = Modifier.width(4.dp))
-                    }
-                }
-            }
-        )
+                            }
+                        }
+                    } else null
 
-        NotificationCard(
-            iconColor = Color(0xFF6E4E33),
-            icon = R.drawable.ic_ai,
-            title = "Plan Me Recommendations.",
-            subtitle = "48 Productivity Recommendations"
-        )
+                NotificationCard(
+                    iconColor = iconColor,
+                    iconResId = iconRes,
+                    title = notif.title,
+                    subtitle = notif.message,
+                    endContent = endContent
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -167,7 +169,7 @@ fun SectionTitle(title: String) {
         text = title,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        color = Color(0xFF3B2B20),
+        color = primaryTextColor,
         modifier = Modifier.padding(bottom = 12.dp)
     )
 }
@@ -175,7 +177,7 @@ fun SectionTitle(title: String) {
 @Composable
 fun NotificationCard(
     iconColor: Color,
-    icon: Int,
+    @DrawableRes iconResId: Int,
     title: String,
     subtitle: String,
     endContent: @Composable (() -> Unit)? = null,
@@ -185,7 +187,7 @@ fun NotificationCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
-            .background(Color.White)
+            .background(cardBackground)
             .padding(16.dp)
             .padding(bottom = if (customContent != null) 8.dp else 0.dp)
     ) {
@@ -197,19 +199,32 @@ fun NotificationCard(
                     .background(iconColor),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
-                )
+                // Using try-catch for painterResource might not be the most idiomatic Compose way.
+                // Consider using a placeholder or error state if the resource is invalid.
+                // For simplicity, this try-catch remains for now.
+                val painter = painterResource(id = iconResId)
+                if (painter != null) {
+                    Icon(
+                        painter = painter,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(title, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF3B2B20))
-                Text(subtitle, fontSize = 12.sp, color = Color.Gray)
+                Text(title, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = primaryTextColor)
+                Text(subtitle, fontSize = 12.sp, color = subtitleText)
             }
 
             endContent?.let {
