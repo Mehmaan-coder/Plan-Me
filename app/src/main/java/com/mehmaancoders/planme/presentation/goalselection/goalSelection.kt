@@ -56,7 +56,7 @@ fun GoalSelectionScreen(navHostController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
-            .padding(horizontal = 24.dp)
+            .padding(24.dp)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -98,7 +98,7 @@ fun GoalSelectionScreen(navHostController: NavHostController) {
                     .background(secondaryBackgroundColor, RoundedCornerShape(16.dp))
                     .padding(horizontal = 12.dp, vertical = 4.dp)
             ) {
-                Text("1 of 14", fontSize = 12.sp, color = primaryTextColor)
+                Text("1 of 5", fontSize = 12.sp, color = primaryTextColor)
             }
         }
 

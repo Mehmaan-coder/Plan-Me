@@ -64,4 +64,7 @@ sealed class Routes {
 
     @Serializable
     data object ChatBotInfoScreen : Routes()
+
+    @Serializable
+    data object InsightsScreen : Routes()
 }

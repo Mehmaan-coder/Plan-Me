@@ -13,14 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import com.mehmaancoders.planme.R
-import androidx.compose.material3.Text
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.*
+import androidx.navigation.NavHostController
+import com.mehmaancoders.planme.presentation.navigation.Routes
 
-@Preview(showSystemUi = true)
 @Composable
-fun NotificationsScreen() {
+fun NotificationsScreen(navHostController: NavHostController) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -32,31 +30,36 @@ fun NotificationsScreen() {
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Top Bar
+        // Top Bar (Fixed Row for Icon + Profile Image)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.Notifications, contentDescription = null, tint = Color(0xFF3B2B20))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Notifications", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color(0xFF3B2B20))
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(
-                    modifier = Modifier
-                        .background(Color(0xFFFFCFC0), RoundedCornerShape(16.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    Text("+11", color = Color(0xFFFF6B00), fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                }
+            Box(
+                modifier = Modifier
+                    .size(35.dp)
+                    .clip(CircleShape)
+                    .border(1.dp, Color(0xFF3B2B20), CircleShape)
+                    .clickable { navHostController.navigate(Routes.HomeScreen) },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.planme_back),
+                    contentDescription = null,
+                    tint = Color(0xFF3B2B20),
+                    modifier = Modifier.size(18.dp)
+                )
             }
+
             Image(
-                painter = painterResource(id = R.drawable.ic_profile), // replace with actual profile image
+                painter = painterResource(id = R.drawable.profileicon),
                 contentDescription = null,
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(1.dp, Color.White, CircleShape)
+                    .clickable { navHostController.navigate(Routes.SettingsScreen) }
             )
         }
 
@@ -103,7 +106,7 @@ fun NotificationsScreen() {
             subtitle = "Your Monthly Mental Analysis is here.",
             customContent = {
                 OutlinedButton(
-                    onClick = { /* Download PDF */ },
+                    onClick = { /* TODO: Handle download */ },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
                     border = BorderStroke(1.dp, Color(0xFF3B2B20))
@@ -131,8 +134,10 @@ fun NotificationsScreen() {
             title = "Stress Decreased.",
             subtitle = "Stress Level is now 3.",
             customContent = {
-                // Stress progress bar
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     repeat(6) { index ->
                         Box(
                             modifier = Modifier
