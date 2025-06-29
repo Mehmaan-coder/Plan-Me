@@ -6,8 +6,8 @@ plugins {
     // For example: kotlin("plugin.serialization") version libs.versions.kotlin.get()
     // However, if "2.1.21" is a specific version needed for serialization and is different
     // from your main Kotlin plugin (libs.versions.kotlin.get()), then this is okay.
-    kotlin("plugin.serialization") version "2.1.21"
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 android {

@@ -2,4 +2,6 @@
 <resources>
 
     <style name="Theme.PlanMe" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.PlanmeServer" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
